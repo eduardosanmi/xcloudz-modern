@@ -1,0 +1,194 @@
+/**
+ * Cloudz Viewer Styles
+ * Modernized version of Xcloudz.css
+ */
+
+.cloudz-viewer {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  font-family: Arial, sans-serif;
+  
+  /* CSS Variables for easy customization */
+  /* When hovering/clicking a TAG */
+  --cloudz-tag-source-highlight-color: #0066cc;
+  --cloudz-tag-source-highlight-glow: rgba(0, 102, 204, 0.5);
+  
+  /* When hovering/clicking a BOX */
+  --cloudz-box-source-highlight-color: #9b59b6;
+  --cloudz-box-source-highlight-glow: rgba(155, 89, 182, 0.5);
+  
+  --cloudz-dimmed-opacity: 0.3;
+  --cloudz-dimmed-grayscale: 0.5;
+  --cloudz-highlight-scale: 1.1;
+  --cloudz-highlight-brightness: 1.2;
+}
+
+.cloudz-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Highlighted state */
+.cloudz-highlighted {
+  transform: scale(var(--cloudz-highlight-scale));
+  filter: brightness(var(--cloudz-highlight-brightness));
+}
+
+/* When a TAG is the source (clicked/hovered) */
+.cloudz-viewer[data-source-type="tag"] .cloudz-highlighted .cloudz-tag-label {
+  color: var(--cloudz-tag-source-highlight-color);
+  text-shadow: 0 0 10px var(--cloudz-tag-source-highlight-glow);
+}
+
+.cloudz-viewer[data-source-type="tag"] .cloudz-highlighted .cloudz-url-content {
+  box-shadow: 0 0 20px var(--cloudz-tag-source-highlight-glow);
+  border: 2px solid var(--cloudz-tag-source-highlight-color);
+}
+
+/* When a BOX is the source (clicked/hovered) */
+.cloudz-viewer[data-source-type="url"] .cloudz-highlighted .cloudz-tag-label {
+  color: var(--cloudz-box-source-highlight-color);
+  text-shadow: 0 0 10px var(--cloudz-box-source-highlight-glow);
+}
+
+.cloudz-viewer[data-source-type="url"] .cloudz-highlighted .cloudz-url-content {
+  box-shadow: 0 0 20px var(--cloudz-box-source-highlight-glow);
+  border: 2px solid var(--cloudz-box-source-highlight-color);
+}
+
+/* Dimmed state (when other nodes are highlighted) */
+.cloudz-dimmed {
+  opacity: var(--cloudz-dimmed-opacity) !important;
+  filter: grayscale(var(--cloudz-dimmed-grayscale));
+}
+
+.cloudz-tag-label {
+  /* font-size is dynamically set by renderer based on fisheye effect */
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  padding: 4px;
+}
+
+.tag-count {
+  font-size: 0.6em;
+  color: #666;
+  margin-left: 4px;
+  font-weight: normal;
+}
+
+.cloudz-url-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Make box itself not clickable */
+}
+
+.cloudz-url-content a {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: inherit;
+  word-break: break-word;
+  pointer-events: auto; /* Only the link text is clickable */
+  padding: 4px 8px; /* Add some padding to make text easier to click */
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.cloudz-url-content a:hover {
+  text-decoration: underline;
+  background-color: rgba(0, 102, 204, 0.1); /* Subtle background on hover */
+}
+
+.cloudz-url-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+
+/* Loading state */
+.cloudz-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000;
+}
+
+.cloudz-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 16px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #0066cc;
+  border-radius: 50%;
+  animation: cloudz-spin 1s linear infinite;
+}
+
+@keyframes cloudz-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cloudz-loading p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Enhanced tag styling */
+.cloudz-tag-enhanced {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.cloudz-tag-enhanced:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.4));
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* Enhanced URL styling */
+.cloudz-url-enhanced {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cloudz-url-enhanced:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cloudz-tag-label {
+    font-size: 24px;
+  }
+  
+  .cloudz-url-content {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
+
